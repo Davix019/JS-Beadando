@@ -138,10 +138,26 @@ function Mine()
         novekedesElem.innerText = kerekitettNovekedes
 
         stopRotation()
-        startRotation(3)
+        startRotation(30)
 
         var audio = document.getElementById("myAudio");
         audio.play();
+
+        //fasterRotation = 15;
+        //setTimeout(function() { fasterRotation = 1; }, 1000);
+
+        const fasterInterval1 = setInterval( function() { fasterRotation++; }, 18 );
+        setTimeout( function() {
+            const fasterInterval2 = setInterval( function() { fasterRotation = 15; }, 400 );
+            setTimeout( function() {
+                const fasterInterval3 = setInterval( function() { fasterRotation--; }, 18 );
+                setTimeout( function() {
+                    clearInterval(fasterInterval3);
+                }, 250 );
+                clearInterval(fasterInterval2);
+            }, 500 );
+            clearInterval(fasterInterval1);
+        }, 250 );
     }
     else
     {
@@ -156,12 +172,15 @@ setInterval(novelSzamot, 1000); // 1000 millimásodperc = 1 másodperc
 //Forgatás
 let currentRotation = 0;
 let rotationInterval;
+let fasterRotation = 1
 
 function rotateImage()
 {
     const image = document.getElementById("rotatingImage");
-    currentRotation = (currentRotation + 1) % 360;
+    currentRotation = (currentRotation + fasterRotation) % 360;
     image.style.transform = `rotate(${currentRotation}deg)`;
+    //console.log(currentRotation)
+    console.log(fasterRotation)
 }
 
 function startRotation(szam)
@@ -175,6 +194,3 @@ function stopRotation()
 }
 
 window.onload = startRotation(30);
-
-
-//Fokozatosan gyorsuló forgatás
